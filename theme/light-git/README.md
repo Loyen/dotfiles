@@ -5,4 +5,4 @@ It is coloured and you can choose colors and strings used in the bash theme file
 
 # Screenshot
 
-![Screenshot](https://github.com/Loyen/bash/theme/light-git/screenshot.png)
+![Screenshot](https://raw.githubusercontent.com/Loyen/bash/master/theme/light-git/screenshot.png)

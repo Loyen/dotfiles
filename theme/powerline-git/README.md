@@ -10,4 +10,4 @@ Use "config.sh" to customize layout and colors.
 
 # Screenshot
 
-![Screenshot](https://github.com/Loyen/bash/theme/powerline-git/screenshot.png)
+![Screenshot](https://raw.githubusercontent.com/Loyen/bash/master/theme/powerline-git/screenshot.png)
