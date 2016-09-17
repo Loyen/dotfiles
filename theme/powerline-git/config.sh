@@ -1,6 +1,6 @@
 #!/bin/bash
 
-PS=0
+PS=1
 
 # Powerline separators
 
