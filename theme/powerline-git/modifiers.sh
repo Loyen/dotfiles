@@ -40,18 +40,48 @@
 PS=0
 
 # Color codes
-color_black='0'
-color_red='1'
-color_green='2'
-color_yellow='3'
-color_blue='4'
-color_purple='5'
-color_cyan='6'
-color_white='7'
 
-export color_recent_bg=''
-export color_recent_fg=''
+# Background
 
+bgcolor_black='40'
+bgcolor_red='41'
+bgcolor_green='42'
+bgcolor_yellow='43'
+bgcolor_blue='44'
+bgcolor_purple='45'
+bgcolor_cyan='46'
+bgcolor_white='107'
+
+bgcolor_darkgray='100'
+
+bgcolor_lightgray='47'
+bgcolor_lightred='101'
+bgcolor_lightgreen='102'
+bgcolor_lightyellow='103'
+bgcolor_lightblue='104'
+bgcolor_lightpurple='105'
+bgcolor_lightcyan='106'
+
+# Foreground
+
+fgcolor_black='30'
+fgcolor_red='31'
+fgcolor_green='32'
+fgcolor_yellow='33'
+fgcolor_blue='34'
+fgcolor_purple='35'
+fgcolor_cyan='36'
+fgcolor_white='97'
+
+fgcolor_darkgray='90'
+
+fgcolor_lightgray='37'
+fgcolor_lightred='91'
+fgcolor_lightgreen='92'
+fgcolor_lightyellow='93'
+fgcolor_lightblue='94'
+fgcolor_lightpurple='95'
+fgcolor_lightcyan='96'
 
 reset() {
 	[[ $PS -eq 1 ]] && printf "\["
@@ -61,29 +91,23 @@ reset() {
 
 background_color() {
 	if [ -n "$1" ]; then
-		color="color_$(printf $1 | tr 'A-Z' 'a-z')"
+		color="bgcolor_$(printf $1 | tr 'A-Z' 'a-z')"
 		[[ $PS -eq 1 ]] && printf "\["
-		printf "\e[4%dm" ${!color}
+		printf "\e[%dm" ${!color}
 		[[ $PS -eq 1 ]] && printf "\]"
-
-		export color_recent_bg="${1}"
 	else
 		reset
-		export color_recent_bg=''
 	fi
 }
 
 text_color() {
 	if [ -n "$1" ]; then
-		color="color_$(printf $1 | tr 'A-Z' 'a-z')"
+		color="fgcolor_$(printf $1 | tr 'A-Z' 'a-z')"
 		[[ $PS -eq 1 ]] && printf "\["
-		printf "\e[3%dm" ${!color}
+		printf "\e[%dm" ${!color}
 		[[ $PS -eq 1 ]] && printf "\]"
-
-		export color_recent_fg="${1}"
 	else
 		reset
-		export color_recent_fg=''
 	fi
 }
 
@@ -104,8 +128,4 @@ text_style() {
 	[[ $PS -eq 1 ]] && printf "\["
 	printf "\e[%dm" ${style}
 	[[ $PS -eq 1 ]] && printf "\]"
-}
-
-current_background() {
-	printf "$color_recent_bg"
 }
