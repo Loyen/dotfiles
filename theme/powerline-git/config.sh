@@ -15,8 +15,6 @@ PL_SEPARATOR_LIGHT_ALTERNATIVE=''
 
 # Git
 
-last_color='white'
-
 git_layout() {
 	[[ -e `git_is_repo` ]] && exit 1
 
@@ -24,12 +22,13 @@ git_layout() {
 
 	local output=''
 
-	output+=`text_color "$last_color"`
-	last_color='black'
-	output+=`background_color "$last_color"`
+	output+=`text_color "$bgcolor"`
+	bgcolor="$1"
+	fgcolor="$2"
+	output+=`background_color "$bgcolor"`
 	output+=`powerline_separator`
-	output+=`text_color 'white'`
-	output+=" `git_branch` "
+	output+=`text_color "$fgcolor"`
+	output+="`git_branch` "
 
 	i=0
 	if [ -n "${gitstatus}" ]; then
@@ -38,49 +37,33 @@ git_layout() {
 			type=${data[0]}
 			amount=${data[1]}
 
-			output+=`text_color "$last_color"`
+			output+=`text_color "$fgcolor"`
+			output+=`powerline_separator_light`
+
 			case "$type" in
 				changed)
-					last_color='green'
-					output+=`background_color "$last_color"`
-					output+=`powerline_separator`
-					output+=`text_color 'black'`
-					output+=" Changed $amount "
+					output+=`text_color 'lightgreen'`
+					output+=" ✚ $amount "
 					;;
 				conflicts)
-					last_color='red'
-					output+=`background_color "$last_color"`
-					output+=`powerline_separator`
-					output+=`text_color 'black'`
-					output+=" Conflicts $amount "
+					output+=`text_color 'lightred'`
+					output+=" ✖ $amount "
 					;;
 				staged)
-					last_color='yellow'
-					output+=`background_color "$last_color"`
-					output+=`powerline_separator`
-					output+=`text_color 'black'`
-					output+=" Staged $amount "
+					output+=`text_color 'lightgreen'`
+					output+=" ● $amount "
 					;;
 				untracked)
-					last_color='blue'
-					output+=`background_color "$last_color"`
-					output+=`powerline_separator`
-					output+=`text_color 'white'`
-					output+=" Untracked $amount "
+					output+=`text_color 'lightblue'`
+					output+=" ✚ $amount "
 					;;
 				deleted)
-					last_color='red'
-					output+=`background_color "$last_color"`
-					output+=`powerline_separator`
-					output+=`text_color 'white'`
-					output+=" Deleted $amount "
+					output+=`text_color 'lightred'`
+					output+=" ✖ $amount "
 					;;
 				stashed)
-					last_color='cyan'
-					output+=`background_color "$last_color"`
-					output+=`powerline_separator`
-					output+=`text_color 'black'`
-					output+=" Stashed $amount "
+					output+=`text_color 'lightcyan'`
+					output+=" ⚑ $amount "
 					;;
 			esac
 
@@ -89,33 +72,58 @@ git_layout() {
 	fi
 
 	output+=`reset`
-	output+=`text_color "$last_color"`
-	output+=`powerline_separator`
-	output+=`reset`
 
 	printf "$output"
-	exit 0
 }
 
 # Prompt
 prompt_layout() {
 	local output=''
 
-	last_color='white'
-	output+=`background_color "$last_color"`
+	# Time
+	bgcolor='lightyellow'
+	output+=`background_color "$bgcolor"`
 	output+=`text_color 'black'`
 	output+=" `date '+%H:%M:%S'` "
 	output+=`reset`
 
+	# Git
 	if [ $(git_is_repo) -eq 1 ]; then
-		output+=`git_layout`
-		output+="\n"
-	else
-		output+=`text_color "$last_color"`
+		output+=`text_color "$bgcolor"`
+
+		bgcolor='black'
+		fgcolor='white'
+
+		output+=`background_color "$bgcolor"`
 		output+=`powerline_separator`
-		output+="\n"
+
+		output+=`git_layout "$bgcolor" "$fgcolor"`
 	fi
-	output+="$ "
+
+
+
+	# Directory
+	output+=`text_color "$bgcolor"`
+
+	bgcolor='cyan'
+	fgcolor='black'
+
+	output+=`background_color "$bgcolor"`
+	output+=`powerline_separator`
+
+	output+=`text_color "$fgcolor"`
+
+	output+=" `pwd` "
+
+	output+=`reset`
+
+	# End
+	output+=`text_color "$bgcolor"`
+	output+=`powerline_separator`
+	output+=`reset`
+
+	# Prompt line
+	output+="\n$ "
 	output+=`reset`
 
 	printf "$output"
