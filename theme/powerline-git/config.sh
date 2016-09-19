@@ -42,7 +42,7 @@ git_layout() {
 
 			case "$type" in
 				changed)
-					output+=`text_color 'lightgreen'`
+					output+=`text_color 'lightyellow'`
 					output+=" ✚ $amount "
 					;;
 				conflicts)
