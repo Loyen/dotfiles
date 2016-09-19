@@ -22,13 +22,11 @@ git_layout() {
 
 	local output=''
 
-	output+=`text_color "$bgcolor"`
 	bgcolor="$1"
 	fgcolor="$2"
 	output+=`background_color "$bgcolor"`
-	output+=`powerline_separator`
 	output+=`text_color "$fgcolor"`
-	output+="`git_branch` "
+	output+=" `git_branch` "
 
 	i=0
 	if [ -n "${gitstatus}" ]; then
