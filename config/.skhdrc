@@ -1,0 +1,106 @@
+## NOTE(koekeishiya): A list of all built-in modifier and literal keywords can
+#                     be found at https://github.com/koekeishiya/skhd/issues/1
+#
+#                     A hotkey is written according to the following rules:
+#
+#                       hotkey   = <keysym> ':' <command> |
+#                                  <keysym> '->' ':' <command>
+#
+#                       keysym   = <mod> '-' <key> | <key>
+#
+#                       mod      = 'built-in mod keyword' | <mod> '+' <mod>
+#
+#                       key      = <literal> | <keycode>
+#
+#                       literal  = 'single letter or built-in keyword'
+#
+#                       keycode  = 'apple keyboard kVK_<Key> values (0x3C)'
+#
+#                       ->       = keypress is not consumed by skhd
+#
+#                       command  = command is executed through '$SHELL -c' and
+#                                  follows valid shell syntax. if the $SHELL environment
+#                                  variable is not set, it will default to '/bin/bash'.
+#                                  when bash is used, the ';' delimeter can be specified
+#                                  to chain commands.
+#
+#                                  to allow a command to extend into multiple lines,
+#                                  prepend '\' at the end of the previous line.
+#
+#                                  an EOL character signifies the end of the bind.
+
+
+# close focused window
+alt - w : chunkc tiling::window --close
+
+# focus window
+cmd + ctrl + alt - h : chunkc tiling::window --focus west
+cmd + ctrl + alt - j : chunkc tiling::window --focus south
+cmd + ctrl + alt - k : chunkc tiling::window --focus north
+cmd + ctrl + alt - l : chunkc tiling::window --focus east
+
+# equalize size of windows
+cmd + ctrl + alt + shift - 0 : chunkc tiling::desktop --equalize
+
+# swap window
+cmd + ctrl + alt + shift - a : chunkc tiling::window --swap west
+cmd + ctrl + alt + shift - s : chunkc tiling::window --swap south
+cmd + ctrl + alt + shift - w : chunkc tiling::window --swap north
+cmd + ctrl + alt + shift - d : chunkc tiling::window --swap east
+
+# move window
+cmd + ctrl + alt + shift - h : chunkc tiling::window --warp west
+cmd + ctrl + alt + shift - j : chunkc tiling::window --warp south
+cmd + ctrl + alt + shift - k : chunkc tiling::window --warp north
+cmd + ctrl + alt + shift - l : chunkc tiling::window --warp east
+
+# focus monitor
+cmd + ctrl + alt - z  : chunkc tiling::monitor -f prev
+cmd + ctrl + alt - c  : chunkc tiling::monitor -f next
+cmd + ctrl + alt - 1  : chunkc tiling::monitor -f 1
+cmd + ctrl + alt - 2  : chunkc tiling::monitor -f 2
+cmd + ctrl + alt - 3  : chunkc tiling::monitor -f 3
+
+# send window to monitor and follow focus
+cmd + ctrl + alt + shift - z  : chunkc tiling::window --send-to-monitor prev; chunkc tiling::monitor -f prev
+cmd + ctrl + alt + shift - c  : chunkc tiling::window --send-to-monitor next; chunkc tiling::monitor -f next
+cmd + ctrl + alt + shift - 1  : chunkc tiling::window --send-to-monitor 1; chunkc tiling::monitor -f 1
+cmd + ctrl + alt + shift - 2  : chunkc tiling::window --send-to-monitor 2; chunkc tiling::monitor -f 2
+cmd + ctrl + alt + shift - 3  : chunkc tiling::window --send-to-monitor 3; chunkc tiling::monitor -f 3
+
+# increase region size
+cmd + ctrl + alt - y : chunkc tiling::window --use-temporary-ratio 0.1 --adjust-window-edge west
+cmd + ctrl + alt - u : chunkc tiling::window --use-temporary-ratio 0.1 --adjust-window-edge south
+cmd + ctrl + alt - i : chunkc tiling::window --use-temporary-ratio 0.1 --adjust-window-edge north
+cmd + ctrl + alt - o : chunkc tiling::window --use-temporary-ratio 0.1 --adjust-window-edge east
+
+# decrease region size
+cmd + ctrl + alt + shift - y : chunkc tiling::window --use-temporary-ratio -0.1 --adjust-window-edge west
+cmd + ctrl + alt + shift - u : chunkc tiling::window --use-temporary-ratio -0.1 --adjust-window-edge south
+cmd + ctrl + alt + shift - i : chunkc tiling::window --use-temporary-ratio -0.1 --adjust-window-edge north
+cmd + ctrl + alt + shift - o : chunkc tiling::window --use-temporary-ratio -0.1 --adjust-window-edge east
+
+# rotate tree
+cmd + ctrl + alt - r : chunkc tiling::desktop --rotate 90
+
+# toggle window fullscreen
+cmd + ctrl + alt - f : chunkc tiling::window --toggle fullscreen
+
+# toggle window native fullscreen
+cmd + ctrl + shift + alt - f : chunkc tiling::window --toggle native-fullscreen
+
+# toggle window split type
+cmd + ctrl + alt - e : chunkc tiling::window --toggle split
+
+# float / unfloat window
+cmd + ctrl + alt - t : chunkc tiling::window --toggle float
+
+# toggle sticky, float and resize to picture-in-picture size
+cmd + ctrl + alt - x : chunkc tiling::window --toggle sticky;\
+                       chunkc tiling::window --warp-floating pip-right
+
+# change layout of desktop
+cmd + ctrl + alt - a : chunkc tiling::desktop --layout bsp
+cmd + ctrl + alt - s : chunkc tiling::desktop --layout monocle
+cmd + ctrl + alt - d : chunkc tiling::desktop --layout float
+
