@@ -1,0 +1,36 @@
+[core]
+	excludesFile = ~/.config/git/ignore
+	hooksPath = ~/.config/git/hooks/
+	editor = /usr/bin/vim
+[alias]
+	# Log
+	logs = log --oneline --graph --date=short
+	standup = "!f() { git log --pretty=format:\"%h %ar - %an: %s\" --after=\"$(date -v${1:--1m} +%Y-%m-%d)\" --until=\"$(date +%Y-%m-%d)\" --author=\"$(git config user.name)\"; }; f"
+
+	# Stash
+	stashes = stash list
+	unstash = stash pop
+
+	# Stage
+	stage = add
+	staged = diff --cached
+	unstage = reset HEAD --soft
+
+	# Branch
+	branches = branch -a
+	create = checkout -b
+	rename = branch -m
+	delete = branch -d
+
+	diff-branch = diff master...
+	stats = diff master... --stat
+
+	# Tag
+	tags = tag -l
+	untag = tag -d
+
+	# Clean
+	clear = fetch origin --prune
+
+[push]
+	default = simple
