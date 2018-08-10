@@ -1,0 +1,21 @@
+#!/bin/bash
+#
+# Change desktop wallpaper on all spaces
+#
+
+set_wallpaper ()
+{
+	if [ -f "${1}" ]; then
+		echo "UPDATE data SET value='${1}';" | sqlite3 ~/Library/Application\ Support/Dock/desktoppicture.db
+		killAll Dock
+	else
+		echo "File do not exist"
+		exit 0
+	fi
+}
+
+if [ -n "${1}" ]; then
+	set_wallpaper "$1"
+else
+	echo "SELECT value FROM data;" | sqlite3 ~/Library/Application\ Support/Dock/desktoppicture.db
+fi
