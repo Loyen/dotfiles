@@ -1,6 +1,21 @@
 "Encoding
 set encoding=utf8
 
+" Plugins
+
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
+
+Plugin 'VundleVim/Vundle.vim'
+Plugin 'bling/vim-airline'
+Plugin 'kien/ctrlp.vim'
+Plugin 'airblade/vim-gitgutter'
+Plugin 'matze/vim-move'
+Plugin 'posva/vim-vue'
+Plugin 'sickill/vim-monokai'
+
+call vundle#end()
+
 " Enable syntax highlighting
 syntax enable
 colorscheme monokai
@@ -42,18 +57,4 @@ set laststatus=2
 set cmdheight=1
 
 let g:airline_powerline_fonts = 1
-
-" Plugins
-
-set rtp+=~/.vim/bundle/Vundle.vim
-call vundle#begin()
-
-Plugin 'VundleVim/Vundle.vim'
-Plugin 'bling/vim-airline'
-Plugin 'kien/ctrlp.vim'
-Plugin 'airblade/vim-gitgutter'
-Plugin 'matze/vim-move'
-Plugin 'posva/vim-vue'
-
-call vundle#end()
 
