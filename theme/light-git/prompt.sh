@@ -13,6 +13,14 @@ Purple='\[\033[0;35m\]'       # Purple
 Cyan='\[\033[0;36m\]'         # Cyan
 White='\[\033[0;37m\]'        # White
 
+Colors=("$Red" "$Green" "$Yellow" "$Blue" "$Purple" "$Cyan")
+Rainbow=${Colors[$RANDOM % ${#Colors[@]} ]}
+
+rainbow_gen() {
+	echo ${Colors[$RANDOM % ${#Colors[@]} ]}
+}
+
+
 ## Customization
 
 # Git related
@@ -36,11 +44,12 @@ GIT_SYM_STASHED="${Yellow}✭"
 # Path related
 PATH_PREFIX=" "
 PATH_SUFFIX="\n"
-PATH_USER="${Blue}${USER}'s home"
-PATH_ROOT="${Red}ROOT"
+PATH_DEFAULT="${Rainbow}"
+PATH_USER="${Rainbow}${USER}"
+PATH_ROOT="${Red}root"
 
 # Prompt related
-PROMPT_USER="${Blue}\$ "
+PROMPT_USER="${Rainbow}\$ "
 PROMPT_ROOT="${Red}# "
 
 ## Path functions
