@@ -31,6 +31,7 @@ set smarttab
 set autoindent
 
 " Tab size 4 spaces
+set expandtab
 set shiftwidth=4
 set tabstop=4
 
