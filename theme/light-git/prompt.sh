@@ -50,8 +50,10 @@ __prompt_dir_current() {
 	path+="${PATH_PREFIX}${Default}"
 	if [ "${dir}" == '/' ]; then
 		path+="${PATH_ROOT}${Default}"
-	elif [ "${dir}" == "${HOME}" ]; then
-		path+="${PATH_USER}${Default}"
+	elif [[ ${dir:0:${#HOME}} == $HOME ]]; then
+		path+="${PATH_USER}"
+		path+="${dir:${#HOME}}"
+		path+="${Default}"
 	else
 		path+="${dir}"
 	fi
