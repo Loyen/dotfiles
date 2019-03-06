@@ -1,0 +1,27 @@
+#!/usr/bin/env osascript
+
+tell application "Microsoft Outlook"
+	set MailFolders to mail folders
+	set TotalUnreadCount to 0
+	set Output to ""
+
+	repeat with CurrentFolder in MailFolders
+		set FolderName to name of CurrentFolder
+		set FolderUnreadCount to unread count of CurrentFolder
+
+		if FolderUnreadCount > 0 then
+            if Output is not equal to "" then
+                set Output to Output & "\n"
+            end if
+
+			set Output to Output & FolderName & "\t" & FolderUnreadCount
+			set TotalUnreadCount to FolderUnreadCount + TotalUnreadCount
+		end if
+
+	end repeat
+
+	if TotalUnreadCount > 0 then
+		return Output
+	end if
+end tell
+
