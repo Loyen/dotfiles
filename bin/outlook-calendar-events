@@ -1,0 +1,119 @@
+#!/usr/bin/env osascript
+
+set Today to (current date)
+set Now to Today
+set Yesterday to Today - (60*24 * minutes)
+set Tomorrow to Today + (60*24 * minutes)
+set DayAfterTomorrow to Today + (60*48 * minutes)
+
+on simple_sort(my_list)
+    set the index_list to {}
+    set the sorted_list to {}
+
+    repeat (the number of items in my_list) times
+        set the low_item to ""
+        repeat with i from 1 to (number of items in my_list)
+            if i is not in the index_list then
+                set this_item to item i of my_list as text
+                if the low_item is "" then
+                    set the low_item to this_item
+                    set the low_item_index to i
+                else if this_item comes before the low_item then
+                    set the low_item to this_item
+                    set the low_item_index to i
+                end if
+            end if
+        end repeat
+
+        set the end of sorted_list to the low_item
+        set the end of the index_list to the low_item_index
+    end repeat
+
+    return the sorted_list
+end simple_sort
+
+on convertMonthToNumber(inputMonth)
+    set inputMonth to inputMonth as string
+
+    set monthList to {"January","February","March","April","May","June","July","August","September","October","November","December"}
+
+    set i to 0
+
+    repeat with monthName in monthList
+        if monthName is equal to inputMonth
+            return i
+        end if
+
+        set i to i + 1
+    end repeat
+end convertMonthToNumber
+
+on prefixNumber(inputNumber)
+    if inputNumber < 10 then
+        return "0" & inputNumber
+    else
+        return inputNumber
+    end if
+end prefixNumber
+
+on formatEventSchedule(inputStartTime, inputEndTime)
+    set eventSchedule to {}
+
+    set {year:y, month:m, day:d, hours:h, minutes:i} to inputStartTime
+    set EventStartDate to y & "-" & my prefixNumber(my convertMonthToNumber(m)) & "-" & my prefixNumber(d)
+    set EventStartTime to my prefixNumber(h) & ":" & my prefixNumber(i)
+
+    set end of eventSchedule to EventStartDate
+    set end of eventSchedule to EventStartTime
+
+    set {year:y, month:m, day:d, hours:h, minutes:i} to inputEndTime
+    set EventEndDate to y & "-" & my prefixNumber(my convertMonthToNumber(m)) & "-" & my prefixNumber(d)
+    set EventEndTime to my prefixNumber(h) & ":" & my prefixNumber(i)
+
+    set end of eventSchedule to EventEndDate
+    set end of eventSchedule to EventEndTime
+
+    return eventSchedule
+end formatTime
+
+set OutputLines to {}
+tell application "Microsoft Outlook"
+    set OutlookEventCollection to (every calendar event whose (start time is less than or equal to Now and end time is greater than or equal to Now) or (start time is greater than or equal to Today and end time is less than or equal to Tomorrow))
+
+    repeat with EventData in OutlookEventCollection
+        set EventName to subject of EventData
+        set EventStart to start time of EventData
+        set EventEnd to end time of EventData
+        set EventLocation to location of EventData
+        set EventRepeat to "No"
+
+        if is recurring of EventData is true then
+            set EventRepeat to "Yes"
+        end if
+
+        if EventLocation is equal to "missing value" then
+            set EventLocation to "-"
+        end if
+
+        set {EventStartDate, EventStartTime, EventEndDate, EventEndTime} to my formatEventSchedule(EventStart, EventEnd)
+
+        set EventSchedule to EventStartDate & "\t" & EventStartTime & "\t" & EventEndDate & "\t" & EventEndTime
+
+        set end of OutputLines to EventSchedule & "\t" & EventName & "\t" & EventLocation & "\t" & EventRepeat
+    end repeat
+end tell
+
+set OutputLines to my simple_sort(OutputLines)
+
+set Output to ""
+
+repeat with OutputLine in OutputLines
+    if Output is not equal to "" then
+        set Output to Output & "\n"
+    end if
+
+    set Output to Output & OutputLine
+end repeat
+
+return Output
+
