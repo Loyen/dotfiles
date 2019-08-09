@@ -25,6 +25,7 @@ shopt -s checkwinsize
 export EDITOR='vim'
 
 # Brew fixes
+export HOMEBREW_NO_AUTO_UPDATE=1 # Stop update on every call
 export PATH="/usr/local/bin:$PATH"  # Add local bin
 export PATH="/usr/local/sbin:$PATH" # Add local sbin
 
