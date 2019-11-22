@@ -24,13 +24,13 @@ shopt -s checkwinsize
 # Set default editor
 export EDITOR='vim'
 
-# Brew fixes
-export HOMEBREW_NO_AUTO_UPDATE=1 # Stop update on every call
-export PATH="/usr/local/bin:$PATH"  # Add local bin
-export PATH="/usr/local/sbin:$PATH" # Add local sbin
+# Stop update on every call
+export HOMEBREW_NO_AUTO_UPDATE=1 
 
-export PATH="${HOME}/.bin:$PATH" # Add user bin
-export PATH="${HOME}/.composer/vendor/bin:$PATH" # Add composer bin
+# Add user local bin
+export PATH="${HOME}/.local/bin:$PATH" 
+# Add composer bin
+[[ -d "${HOME}/.composer/vendor/bin" ]] && export PATH="${HOME}/.composer/vendor/bin:$PATH" 
 
 # Add bash completion
 [[ -f "$(brew --prefix)/etc/bash_completion" ]] && source "$(brew --prefix)/etc/bash_completion"
