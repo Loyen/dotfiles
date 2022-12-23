@@ -18,7 +18,7 @@ call vundle#end()
 
 " Enable syntax highlighting
 syntax enable
-let g:colors_name monokai
+colorscheme monokai
 
 " Enable filetype plugins
 filetype plugin on
