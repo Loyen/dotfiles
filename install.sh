@@ -7,10 +7,9 @@ if ! command -v go &> /dev/null || ! command -v git &> /dev/null; then
     exit 1
 fi
 
-function symLinkconfigFile() {
-    configFilename="$1"
-    configFilepath="$CONFIG_DIR/$configFilename"
-    configHomeFilepath="$HOME/$configFilename"
+function symLinkConfigFile() {
+    configFilepath="$CONFIG_DIR/$1"
+    configHomeFilepath="$HOME/$2"
 
     if [ ! -f "$configHomeFilepath" ]; then
         echo "Symlinking $configHomeFilepath"
@@ -22,7 +21,7 @@ function symLinkconfigFile() {
 
 configFileList=(".profile" ".gitconfig" ".vimrc")
 for configFilename in "${configFileList[@]}"; do
-    symLinkconfigFile $configFilename
+    symLinkConfigFile $configFilename $configFilename
 done
 
 if [ ! -f "$(go env GOPATH)/bin/go-prompt" ]; then
@@ -30,4 +29,14 @@ if [ ! -f "$(go env GOPATH)/bin/go-prompt" ]; then
     go get github.com/Loyen/go-prompt
 else
     echo "Loyen/go-prompt is already installed. Skipping..."
+fi
+
+echo "Setting up go-prompt-theme"
+if [ ! -f "$HOME/.config/go-prompt-theme" ]; then
+    if [ ! -d "$HOME/.config" ]; then
+        mkdir -p "$HOME/.config"
+    fi
+    symLinkConfigFile "go-prompt-theme" ".config/go-prompt-theme"
+else
+    echo "$HOME/.config/go-prompt-theme already exists. Skipping..."
 fi
