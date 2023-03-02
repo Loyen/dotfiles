@@ -25,13 +25,6 @@ for configFilename in "${configFileList[@]}"; do
     symLinkconfigFile $configFilename
 done
 
-# Setup vim
-if [ ! -d "$HOME/.vim/bundle/Vundle.vim" ]; then
-    echo "Installing vim Vundle"
-    git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
-    vim +PluginInstall +qall
-fi
-
 if [ -n $(command -v go) ]; then
     if [ ! -f "$(go env GOPATH)/bin/go-prompt" ]; then
         echo "Installing Loyen/go-prompt"

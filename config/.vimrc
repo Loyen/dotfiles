@@ -3,22 +3,31 @@ set encoding=utf8
 
 " Plugins
 
-set rtp+=~/.vim/bundle/Vundle.vim
-call vundle#begin()
+" Install vim-plug if not found
+if empty(glob('~/.vim/autoload/plug.vim'))
+  silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
+    \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+endif
 
-Plugin 'VundleVim/Vundle.vim'
-Plugin 'bling/vim-airline'
-Plugin 'kien/ctrlp.vim'
-Plugin 'airblade/vim-gitgutter'
-Plugin 'matze/vim-move'
-Plugin 'posva/vim-vue'
-Plugin 'sickill/vim-monokai'
+" Run PlugInstall if there are missing plugins
+autocmd VimEnter * if len(filter(values(g:plugs), '!isdirectory(v:val.dir)'))
+  \| PlugInstall --sync | source $MYVIMRC
+\| endif
 
-call vundle#end()
+call plug#begin('~/.vim/plugged')
+
+Plug  'bling/vim-airline'
+Plug  'kien/ctrlp.vim'
+Plug  'airblade/vim-gitgutter'
+Plug  'matze/vim-move'
+Plug  'posva/vim-vue'
+Plug  'sickill/vim-monokai'
+
+call plug#end()
 
 " Enable syntax highlighting
 syntax enable
-colorscheme monokai
+silent!colorscheme monokai
 
 " Enable filetype plugins
 filetype plugin on
@@ -57,4 +66,3 @@ set laststatus=2
 set cmdheight=1
 
 let g:airline_powerline_fonts = 1
-
