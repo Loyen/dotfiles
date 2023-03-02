@@ -2,7 +2,7 @@
 
 CONFIG_DIR="$PWD/config"
 
-if [[ -z "$(command -v go)" && -z "$(command -v git)" ]]; then
+if ! command -v go &> /dev/null || ! command -v git &> /dev/null; then
     echo "Install script requires golang and git to be installed."
     exit 1
 fi
@@ -25,13 +25,9 @@ for configFilename in "${configFileList[@]}"; do
     symLinkconfigFile $configFilename
 done
 
-if [ -n $(command -v go) ]; then
-    if [ ! -f "$(go env GOPATH)/bin/go-prompt" ]; then
-        echo "Installing Loyen/go-prompt"
-        go install github.com/Loyen/go-prompt@main
-    else
-        echo "Loyen/go-prompt is already installed. Skipping..."
-    fi
+if [ ! -f "$(go env GOPATH)/bin/go-prompt" ]; then
+    echo "Installing Loyen/go-prompt"
+    go get github.com/Loyen/go-prompt
 else
-    echo "Golang is not installed. Skipping install of Loyen/go-prompt"
+    echo "Loyen/go-prompt is already installed. Skipping..."
 fi
