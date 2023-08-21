@@ -25,8 +25,8 @@ for configFilename in "${configFileList[@]}"; do
 done
 
 if [ ! -f "$(go env GOPATH)/bin/go-prompt" ]; then
-    echo "Installing Loyen/go-prompt"
-    go get github.com/Loyen/go-prompt
+    echo "Installing loyen/go-prompt"
+    go install github.com/loyen/go-prompt@latest
 else
     echo "Loyen/go-prompt is already installed. Skipping..."
 fi
